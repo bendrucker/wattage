@@ -15,11 +15,14 @@ function render (state, events) {
   }
 
   return yo`
-    <video
-      src="${state.src}"
-      controls
-      ontimeupdate=${(event) => events.onTime({time: event.target.currentTime})}
-      style="width: 100%">
-    </video>
+    <div>
+      <video
+        src="${state.src}"
+        controls
+        ontimeupdate=${(event) => events.onTime({time: event.target.currentTime})}
+        style="width: 100%">
+      </video>
+      <small>${state.start.toString()}</small>
+    </div>
   `
 }

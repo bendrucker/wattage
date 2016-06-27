@@ -12,7 +12,8 @@
   },
   "scripts": {
     "test": "standard && tape test.js",
-    "start": "budo ./index.js"
+    "start": "budo ./index.js",
+    "example": "budo ./example/index.js"
   },
   "keywords": [
     "fit",
