@@ -12,7 +12,7 @@
   },
   "scripts": {
     "test": "standard && tape test.js",
-    "start": "budo index.js"
+    "start": "budo ./example/index.js"
   },
   "keywords": [
     "fit",
@@ -27,8 +27,15 @@
     "index.js"
   ],
   "dependencies": {
+    "brfs": "~1.4.3",
     "choo": "~2.3.1",
     "easy-fit": "0.0.4",
-    "global": "~4.3.0"
+    "global": "~4.3.0",
+    "xtend": "~4.0.1"
+  },
+  "browserify": {
+    "transform": [
+      "brfs"
+    ]
   }
 }
