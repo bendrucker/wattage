@@ -11,10 +11,11 @@ module.exports = function (app) {
       type: null,
       size: null,
       entries: [],
+      session: null,
       error: null
     },
     reducers: {
-      entries: (action, state) => ({entries: action.entries, loading: false}),
+      result: (action, state) => ({entries: action.entries, session: action.session}),
       file: (action, state) => ({type: fileType(action.file), size: action.file.size}),
       error: (action, state) => ({error: action.error})
     },
@@ -36,7 +37,7 @@ function parse (action, state, send) {
     case 'fit':
       fit(action.data, function (err, data) {
         if (err) return send('activity:error', {error: err})
-        send('activity:entries', {entries: data.records})
+        send('activity:result', {entries: data.records, session: data.sessions[0]})
       })
       break
     default:

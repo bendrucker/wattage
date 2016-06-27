@@ -6,7 +6,7 @@ const file = require('./file')
 module.exports = render
 
 function render (state, events) {
-  if (!state.entries.length) {
+  if (!state.session) {
     return yo`
       <div>
         ${file(null, {onFile: events.onFile})}
@@ -15,7 +15,8 @@ function render (state, events) {
     `
   }
 
-  return yo`<h1>Activity</h1>`
+  const start = state.session.start_time
+  return yo`<h1>Activity: ${[start.getMonth() + 1, start.getDate()].join('/')}</h1>`
 }
 
 function renderError (state) {
