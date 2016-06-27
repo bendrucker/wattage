@@ -31,6 +31,7 @@
     "choo": "~2.3.1",
     "easy-fit": "0.0.4",
     "global": "~4.3.0",
+    "hhmmss": "~1.0.0",
     "xtend": "~4.0.1"
   },
   "browserify": {

@@ -6,6 +6,7 @@ const Fit = require('easy-fit').default
 const fs = require('fs')
 const path = require('path')
 const extend = require('xtend')
+const hhMmSs = require('hhmmss')
 
 const ride = fs.readFileSync(path.resolve(__dirname, './data.fit'))
 
@@ -70,7 +71,7 @@ function renderTable (state) {
       <tbody>
         <tr>
           <td>
-            ${String(state.time)}
+            ${hhMmSs(state.time)}
           </td>
         </tr>
       </tbody>
