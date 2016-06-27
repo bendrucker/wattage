@@ -11,7 +11,7 @@ const hhMmSs = require('hhmmss')
 const ride = fs.readFileSync(path.resolve(__dirname, './data.fit'))
 
 const fit = new Fit({
-  speedUnit: 'mi/h',
+  speedUnit: 'mph',
   lengthUnit: 'mi',
   temperatureUnit: 'fahrenheit'
 })
@@ -21,7 +21,8 @@ const app = choo()
 app.model({
   state: {
     video: {
-      start: new Date('2016-06-25T14:50:22-07:00'),
+      // hardcoded using known video frame of alpine dam (03:23) and strava ui for a map
+      start: new Date(new Date('2016-06-25T20:53:20.000Z').getTime() - ((3 * 60 + 23) * 1000)),
       time: 0
     },
     data: null
@@ -66,16 +67,32 @@ function renderVideo (state, send) {
 
 function renderTable (state) {
   return choo.view`
-    <table style="text-align: left">
+    <table style="text-align: left; line-height: 20px;">
       <thead>
         <tr>
-          <th>Time</th>
+          <th>Elapsed</th>
+          <th>Speed</th>
+          <th>Cadence</th>
+          <th>Power</th>
+          <th>Heartrate</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td>
             ${hhMmSs(state.video.time)}
+          </td>
+          <td>
+            ${renderValue(state.data, videoTime(state.video), 'speed').toFixed(0)}mph
+          </td>
+          <td>
+            ${renderValue(state.data, videoTime(state.video), 'cadence').toFixed(0)}rpm
+          </td>
+          <td>
+            ${renderValue(state.data, videoTime(state.video), 'power').toFixed(0)}W
+          </td>
+          <td>
+            ${renderValue(state.data, videoTime(state.video), 'heart_rate').toFixed(0)}bpm
           </td>
         </tr>
       </tbody>
@@ -87,10 +104,34 @@ function renderControls (state, send) {
   return choo.view`
     <form>
       <label>
-        <input type="text" value=${state.video.start}>
+        Start Time
+        <input type="text" value=${state.video.start.toISOString()}>
       </label>
     </form>
   `
+}
+
+function videoTime (video) {
+  return new Date(video.start.getTime() + video.time * 1000)
+}
+
+function renderValue (data, time, key) {
+  if (!data || !time) return 0
+  const result = data.records.find(function (record, index, array) {
+    const previous = array[index - 1]
+    const next = array[index + 1]
+    if (!previous || !next) return
+    return record.hasOwnProperty(key) &&
+      delta(time, record.timestamp) < delta(time, previous.timestamp) &&
+      delta(time, record.timestamp) < delta(time, next.timestamp)
+  })
+
+  if (!result) return 0
+  return result[key]
+}
+
+function delta (a, b) {
+  return Math.abs(Math.abs(a) - Math.abs(b))
 }
 
 app.router((route) => [
