@@ -2,7 +2,7 @@
 
 const toBuffer = require('typedarray-to-buffer')
 const path = require('path')
-const fit = require('../parsers/fit')
+const fit = require('../reducers/fit')
 
 module.exports = function (app) {
   app.model({
