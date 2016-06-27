@@ -8,6 +8,9 @@ const playerModel = require('./models/player')
 
 const activityView = require('./views/activity')
 const playerView = require('./views/player')
+const metricsView = require('./views/metrics')
+
+const findEntry = require('./reducers/entry')
 
 const app = choo()
 
@@ -31,6 +34,16 @@ function renderMain (params, state, send) {
       ${playerView(state.player, {
         onFile: (file) => send('player:file', {file: file}),
         onTime: partial(send, 'player:time')
+      })}
+      <h2>Metrics</h2>
+      ${metricsView({
+        speed: {
+          value: !state.player.time
+            ? '-'
+            : findEntry(state.activity.entries, (entry) => {
+
+            })
+        }
       })}
     </main>
   `
