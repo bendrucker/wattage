@@ -16,7 +16,7 @@ function render (state, events) {
   }
 
   const start = state.session.start_time
-  return yo`<h1>Activity: ${[start.getMonth() + 1, start.getDate()].join('/')}</h1>`
+  return yo`<h3>Loaded ${state.type} from ${[start.getMonth() + 1, start.getDate()].join('/')}</h3>`
 }
 
 function renderError (state) {
