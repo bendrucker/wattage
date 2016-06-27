@@ -20,7 +20,10 @@ const app = choo()
 
 app.model({
   state: {
-    time: 0,
+    video: {
+      start: new Date('2016-06-25T14:50:22-07:00'),
+      time: 0
+    },
     data: null
   },
   subscriptions: [
@@ -29,8 +32,8 @@ app.model({
     }
   ],
   reducers: {
-    json: (action, state) => extend(state, {data: action.json}),
-    tick: (action, state) => extend(state, {time: action.time})
+    json: (action, state) => ({data: action.json}),
+    tick: (action, state) => ({video: extend(state.video, {time: action.time})})
   },
   effects: {
     fit: function (action, state, send) {
@@ -47,6 +50,7 @@ const mainView = (params, state, send) => choo.view`
   <main>
     ${renderVideo(state, send)}
     ${renderTable(state)}
+    ${renderControls(state, send)}
   </main>
 `
 
@@ -71,11 +75,21 @@ function renderTable (state) {
       <tbody>
         <tr>
           <td>
-            ${hhMmSs(state.time)}
+            ${hhMmSs(state.video.time)}
           </td>
         </tr>
       </tbody>
     </table>
+  `
+}
+
+function renderControls (state, send) {
+  return choo.view`
+    <form>
+      <label>
+        <input type="text" value=${state.video.start}>
+      </label>
+    </form>
   `
 }
 
