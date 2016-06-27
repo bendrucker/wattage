@@ -23,10 +23,13 @@ app.router((route) => [
 function renderMain (params, state, send) {
   return choo.view`
     <main>
+      <h2>Activity</h2>
       ${activityView(state.activity, {
         onFile: (file) => send('activity:file', {file: file})
       })}
+      <h2>Video Player</h2>
       ${playerView(state.player, {
+        onFile: (file) => send('player:file', {file: file}),
         onTime: partial(send, 'player:time')
       })}
     </main>
