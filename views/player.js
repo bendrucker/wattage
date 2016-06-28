@@ -9,7 +9,9 @@ function render (state, events) {
   if (!state.src) {
     return yo`
       <div>
-        ${file(null, {onFile: events.onFile})}
+        ${file({label: 'Choose video', accept: '.mp4'}, (files) => {
+          events.onFile(files[0])
+        })}
       </div>
     `
   }

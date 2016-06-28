@@ -9,7 +9,9 @@ function render (state, events) {
   if (!state.session) {
     return yo`
       <div>
-        ${file(null, {onFile: events.onFile})}
+        ${file({label: 'Choose activity', accept: '.fit'}, (files) => {
+          events.onFile(files[0])
+        })}
         ${renderError(state)}
       </div>
     `

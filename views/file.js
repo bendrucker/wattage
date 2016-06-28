@@ -1,13 +1,9 @@
 'use strict'
 
-const yo = require('yo-yo')
+const picker = require('filepicker-element')
+const insertStyles = require('insert-styles')
+const getCss = require('csjs/get-css')
 
-module.exports = render
+module.exports = picker
 
-function render (data, events) {
-  return yo`
-    <input
-      type="file"
-      onchange=${(event) => events.onFile(event.target.files[0])})/>
-  `
-}
+insertStyles(getCss(picker.styles))
