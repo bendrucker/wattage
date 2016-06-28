@@ -1,9 +1,9 @@
 'use strict'
 
-const createObjectURL = require('global/document').URL.createObjectURL
+const createObjectURL = require('global/window').URL.createObjectURL
 const yo = require('yo-yo')
 const sf = require('sheetify')
-const file = require('../file')
+const drop = require('drag-drop')
 
 sf('tachyons-type-scale')
 
@@ -29,12 +29,13 @@ module.exports = {
 }
 
 function render (state, send) {
-  return yo`
+  const upload = yo`
     <video-upload>
       <h2 class="f2">Upload</h2>
-      ${file({label: 'Choose video'}, (files) => send('upload:file', {
-        file: files[0]
-      }))}
     </video-upload>
   `
+
+  drop(upload, (files) => send('upload:file', {file: files[0]}))
+
+  return upload
 }
