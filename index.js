@@ -24,6 +24,8 @@ app.router((route) => [
 ])
 
 function renderMain (params, state, send) {
+  const entry = findEntry(state)
+
   return choo.view`
     <main>
       <h2>Activity</h2>
@@ -38,15 +40,15 @@ function renderMain (params, state, send) {
       <h2>Metrics</h2>
       ${metricsView({
         speed: {
-          value: !state.player.time
-            ? '-'
-            : findEntry(state.activity.entries, (entry) => {
-
-            })
+          value: get(entry, 'speed')
         }
       })}
     </main>
   `
+}
+
+function get (entry, key) {
+  return entry && entry[key]
 }
 
 if (!module.parent) document.body.appendChild(app.start())
