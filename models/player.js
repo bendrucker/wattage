@@ -31,7 +31,7 @@ function onFile (action, state, send) {
     mp4(reader.result, function (err, data) {
       assert.ifError(err)
       send('player:data', {
-        start: data.created,
+        start: new Date(data.created.getTime() - (data.duration * 1000 / data.timescale)),
         src: URL.createObjectURL(action.file)
       })
     })
