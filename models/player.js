@@ -1,39 +1,26 @@
 'use strict'
 
 const URL = require('global/window').URL
-const assert = require('assert')
-const mp4 = require('../reducers/mp4')
 
 module.exports = function (app) {
   app.model({
     namespace: 'player',
     state: {
       src: null,
-      start: null,
       time: null
     },
     reducers: {
-      data: (action, state) => ({src: action.src, start: action.start}),
+      data: (action, state) => ({src: action.src}),
       time: (action, state) => ({time: action.time})
     },
     effects: {
-      file: onFile
+      file: read
     }
   })
 }
 
-function onFile (action, state, send) {
+function read (action, state, send) {
   const reader = new FileReader()
-  reader.onload = onLoad
+  reader.onload = () => send('player:data', {url: URL.createObjectURL(action.file)})
   reader.readAsArrayBuffer(action.file)
-
-  function onLoad () {
-    mp4(reader.result, function (err, data) {
-      assert.ifError(err)
-      send('player:data', {
-        start: new Date(data.created.getTime() - (data.duration * 1000 / data.timescale)),
-        src: URL.createObjectURL(action.file)
-      })
-    })
-  }
 }
