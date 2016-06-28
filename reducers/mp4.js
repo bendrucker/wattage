@@ -1,6 +1,6 @@
 'use strict'
 
-const Box = require('mp4box').MP4Box
+const Box = require('videostream-mp4box')
 const partial = require('ap').partial
 
 module.exports = mp4Metadata
