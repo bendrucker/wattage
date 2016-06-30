@@ -15,7 +15,7 @@ function render (send) {
     </video-upload>
   `
 
-  drop(upload, (files) => send('upload:file', {file: files[0]}))
+  drop(upload, (files) => send('videos:add', {file: files[0]}))
 
   return upload
 }
