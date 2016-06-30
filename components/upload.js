@@ -8,7 +8,7 @@ module.exports = render
 
 sf('tachyons-type-scale')
 
-function render (state, send) {
+function render (send) {
   const upload = yo`
     <video-upload>
       <h2 class="f2">Upload</h2>

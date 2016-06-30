@@ -3,7 +3,12 @@
 const choo = require('choo')
 const sf = require('sheetify')
 
-const upload = require('./components/upload')
+const map = require('map-values')
+const bulk = require('bulk-require')
+const path = require('path')
+
+const models = bulk(path.resolve(__dirname, 'models'), '*')
+const {upload} = bulk(path.resolve(__dirname, 'components'), '*')
 
 const app = choo()
 
@@ -12,7 +17,7 @@ module.exports = app
 sf('css-wipe')
 sf('tachyons-font-family')
 
-app.model(upload.model)
+map(models, app.model)
 
 app.router((route) => [
   route('/', renderMain)
@@ -21,7 +26,7 @@ app.router((route) => [
 function renderMain (params, state, send) {
   return choo.view`
     <main class="sans-serif">
-      ${upload.render(state.upload, send)}
+      ${upload(send)}
     </main>
   `
 }
