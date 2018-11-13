@@ -1,4 +1,4 @@
-# wattage [![Build Status](https://travis-ci.org/bendrucker/wattage.svg?branch=master)](https://travis-ci.org/bendrucker/wattage)
+# wattage [![Build Status](https://travis-ci.org/bendrucker/wattage.svg?branch=master)](https://travis-ci.org/bendrucker/wattage) [![Greenkeeper badge](https://badges.greenkeeper.io/bendrucker/wattage.svg)](https://greenkeeper.io/)
 
 > Browser app for analyzing activity videos using fit/gpx data
 
